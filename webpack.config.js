@@ -4,11 +4,12 @@
 
 const path = require('path');
 
+const Dotenv = require('dotenv-webpack');
+
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
 
-/** @type WebpackConfig */
-const extensionConfig = {
+module.exports =  {
   target: 'node', // VS Code extensions run in a Node.js-context 📖 -> https://webpack.js.org/configuration/node/
 	mode: 'none', // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
 
@@ -19,6 +20,9 @@ const extensionConfig = {
     filename: 'extension.js',
     libraryTarget: 'commonjs2'
   },
+  plugins:[
+    new Dotenv()
+  ],
   externals: {
     vscode: 'commonjs vscode' // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
     // modules added here also need to be added in the .vscodeignore file
@@ -44,5 +48,4 @@ const extensionConfig = {
   infrastructureLogging: {
     level: "log", // enables logging required for problem matchers
   },
-};
-module.exports = [ extensionConfig ];
+}
